@@ -15,10 +15,7 @@ public class SlotsManager : MonoBehaviour
     {
         for (int i = 1; i <= 7; i++)
         {
-            
-            
             slots.Add(transform.Find($"Slot {i}").GetComponent<Slot>());
-
         }
     }
 
@@ -27,6 +24,7 @@ public class SlotsManager : MonoBehaviour
         Figure.TapedOnFigure += CheckForCanAdd;
         ResetButton.PressedOnResetButton += ResetFigures;
     }
+
     private void OnDisable()
     {
         Figure.TapedOnFigure -= CheckForCanAdd;
@@ -36,7 +34,6 @@ public class SlotsManager : MonoBehaviour
     private void CheckForCanAdd(GameObject obj)
     {
         bool allPreviousOccupied = true;
-
         foreach (Slot slot in slots)
         {
             slot.CanAdd = !slot.Occupaied && allPreviousOccupied;
@@ -44,25 +41,18 @@ public class SlotsManager : MonoBehaviour
             {
                 allPreviousOccupied = false;
             }
-
             IsChacked?.Invoke(obj);
         }
     }
 
     private void ResetFigures()
     {
-        if (spawner == null)
-        {
-            Debug.LogError("FigureSpawner не найден!");
-            return;
-        }
-
         List<GameObject> figures = new();
-        foreach (var slot in slots)
+        foreach (var figure in slots)
         {
-            if (slot != null && slot.figure != null && slot.Occupaied)
+            if (figure.figure != null) // ƒобавл€ем только существующие фигуры
             {
-                figures.Add(slot.figure);
+                figures.Add(figure.figure);
             }
         }
         if (figures.Count > 0)
@@ -70,4 +60,5 @@ public class SlotsManager : MonoBehaviour
             spawner.SpawnFigures(figures);
         }
     }
+
 }

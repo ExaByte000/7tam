@@ -8,7 +8,7 @@ public class Slot : MonoBehaviour
     public bool Occupaied { get; private set; }
 
     [SerializeField] private Sprite slotSprite;
-    public GameObject figure;
+     public GameObject figure;
 
     
     private Image form;
@@ -50,6 +50,7 @@ public class Slot : MonoBehaviour
             Occupaied = true;
 
             this.figure = figure;
+
         }
     }
 

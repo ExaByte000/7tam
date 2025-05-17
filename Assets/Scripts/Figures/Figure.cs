@@ -22,7 +22,7 @@ public class Figure : MonoBehaviour
         if (counter < 7) 
         {
             TapedOnFigure?.Invoke(gameObject);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
             
     }
