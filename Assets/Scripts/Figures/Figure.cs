@@ -4,20 +4,23 @@ using UnityEngine;
 public class Figure : MonoBehaviour
 {
     public static Action<GameObject> TapedOnFigure;
-    private static int counter = 0;
+    public static int counter = 0;
 
     private void OnEnable()
     {
         ResetButton.PressedOnResetButton += ClearCounter;
     }
+    private void OnDisable()
+    {
+        ResetButton.PressedOnResetButton -= ClearCounter;
+    }
 
     private void OnMouseDown()
     {
-        
-
+        counter = 0;
         foreach (Slot slot in SlotsManager.Slots)
         {
-            if (slot.CanAdd) counter++;
+            if (slot.Occupaied) counter++;
         }
         if (counter < 7) 
         {
@@ -31,4 +34,5 @@ public class Figure : MonoBehaviour
     {
         counter = 0;
     }
+
 }

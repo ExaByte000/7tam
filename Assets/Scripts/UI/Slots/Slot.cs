@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,10 @@ public class Slot : MonoBehaviour
     public bool Occupaied { get; private set; }
 
     [SerializeField] private Sprite slotSprite;
-     public GameObject figure;
+    public GameObject figure;
+    public static Action FigureAdded;
 
-    
+
     private Image form;
     private Transform animal;
 
@@ -34,6 +36,7 @@ public class Slot : MonoBehaviour
 
     private void AddFigureToSlot(GameObject figure)
     {
+        Debug.Log("Фигура добавлена в слот");
         if (!Occupaied && CanAdd) 
         {
             SpriteRenderer figureSparite = figure.GetComponent<SpriteRenderer>();
@@ -45,20 +48,21 @@ public class Slot : MonoBehaviour
 
             animal.gameObject.SetActive(true);
 
-            animal.GetComponent<Image>().sprite = figure.transform.Find("Animal").GetComponentInChildren<SpriteRenderer>().sprite;
+            animal.GetComponent<Image>().sprite = figure.transform.Find("Animal").GetComponent<SpriteRenderer>().sprite;
 
             Occupaied = true;
 
             this.figure = figure;
 
+            FigureAdded?.Invoke();
         }
     }
 
-    private void RemoveFigureFromList()
+    public void RemoveFigureFromList()
     {
         form.sprite = slotSprite;
         form.color = Color.white;
-        animal.gameObject.SetActive(false);
+        animal.gameObject?.SetActive(false);
 
         Occupaied = false;
         CanAdd = false;
